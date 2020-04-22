@@ -1,0 +1,13 @@
+--configclient-dev.properties内容：
+
+demo-config-profile-env=dev-native
+zuowenjun.site=http://www.zuowenjun.cn,http://zuowj.cnblogs.com--20190227
+zuowenjun.skills=.net,java,html,js,css,sql,python,vb--20190227
+zuowenjun.motto=Learning is endless; Opportunity is for the prepared mind;--20190227
+
+--configclient-prod.properties内容：
+
+demo-config-profile-env=prod-native
+zuowenjun.site=http://www.zuowenjun.cn,http://zuowj.cnblogs.com,http://github.com/zuowj
+zuowenjun.skills=.net,java,html,js,css,sql,python,vb
+zuowenjun.motto=Learning is endless; Opportunity is for the prepared mind;学无止境；机会是留给有准备的人
