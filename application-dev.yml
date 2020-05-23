@@ -14,6 +14,6 @@ spring:
       server:
         git:
           uri: https://github.com/lisongyan123/config.git
-          search-paths: config
+          search-paths: config啊啊
           username: 842166100@qq.com  #账号密码写真实的快一些我觉得，不使用也能访问有点慢
           password: lisongyan1996
