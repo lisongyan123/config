@@ -1,19 +1,70 @@
 server:
-  port: 7002
-
+  port: 18082
 spring:
   application:
-    name: config-server
+    name: cloud-zuul
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/lsy?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
     username: root
     password: 123456
   cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/lisongyan123/config.git
-          search-paths: config啊啊
-          username: 842166100@qq.com  #账号密码写真实的快一些我觉得，不使用也能访问有点慢
-          password: lisongyan1996
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        enabled: true
+        register: true
+        hostname: 127.0.0.1
+        serviceName: ${spring.application.name}
+        tags: test
+        instanceId: ${spring.application.name}-${spring.cloud.client.ip-address}-${server.port}
+        health-check-path: /actuator/health
+        healthCheckInterval: 15s
+
+    # 配默认熔断超时策略
+    # zuul配置了熔断fallback的话，熔断超时也要配置，
+    # 不然如果你配置的ribbon超时时间大于熔断的超时，那么会先走熔断，相当于你配的ribbon超时就不生效了。
+  hystrix:
+    command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 60000
+
+    # ribbon超时时间设置
+  ribbon:
+    ReadTimeout: 60000
+    ConnectTimeout: 60000
+
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+    com.windmt.filter: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    consul:
+      enabled: false
+
+zuul:
+  routes:
+    client-1:
+      path: /confit/**
+      url: http://localhost:18082/config-server/hello
+      sensitiveHeaders: ""
+      customSensitiveHeaders: true
+    client-2:
+      path: /client-2/**
+      serviceId: cloud-eureka-client
+    # zuul.routes.<serviceid> = <path>
+    cloud-eureka-client: /client-3/**
+    client-4:
+      path: /client-4/**
+      url: forward:/local
