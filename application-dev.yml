@@ -1,5 +1,5 @@
 server:
-  port: 18085
+  port: 18084
 spring:
   application:
     name: cloud-zuul
