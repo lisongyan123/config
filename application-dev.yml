@@ -1,4 +1,15 @@
-name: 3c
-age: 12
-server:
-  port: 13002
+zuul:
+  routes:
+    client-1:
+      path: /config-server/**
+      url: http://localhost:7001/config-server/hello
+      sensitiveHeaders: ""
+      customSensitiveHeaders: true
+    client-2:
+      path: /client-2/**
+      serviceId: cloud-eureka-client
+    # zuul.routes.<serviceid> = <path>
+    cloud-eureka-client: /client-3/**
+    client-4:
+      path: /client-4/**
+      url: forward:/local
