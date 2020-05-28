@@ -2,7 +2,7 @@ zuul:
   routes:
     client-1:
       path: /config-server/**
-      url: http://localhost:7001/config-server/hello
+      url: http://localhost:18082/config-server/hello
       sensitiveHeaders: ""
       customSensitiveHeaders: true
     client-2:
